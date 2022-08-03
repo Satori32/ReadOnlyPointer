@@ -77,16 +77,16 @@ class ReadOnlyPointer {
 public:
 	ReadOnlyPointer() = delete;
 	ReadOnlyPointer(std::shared_ptr<T> In) :P(In) {}
-	const std::shared_ptr<T> operator ->() {
+	const std::shared_ptr<const T> operator ->() const{
 		return P;
 	}
 	
-	const std::shared_ptr<T>operator*() {
+	const std::shared_ptr<const T> operator*() const{
 		return P;
 	}
 
 protected:
-	std::shared_ptr<T> P = nullptr;
+	std::shared_ptr<const T> P = nullptr;
 };
 
 class Test {
@@ -120,5 +120,6 @@ int main() {
 	ReadOnlyPointer<Test> Z = std::make_shared<Test>();
 
 	Z->Show();
+	(*Z)->Show();
 
 }
