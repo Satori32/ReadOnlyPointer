@@ -63,12 +63,31 @@ protected:
 	RCount R;
 	T* P = nullptr;
 };
+
+
 template<class T,class ... A>
 Const_Shared_Ptr<T> MK_CSP(A&... X) {
 	Const_Shared_Ptr<T> S(new T(X...));
 
 	return S;
 }
+
+template<class T>
+class ReadOnlyPointer {
+public:
+	ReadOnlyPointer() = delete;
+	ReadOnlyPointer(std::shared_ptr<T> In) :P(In) {}
+	const std::shared_ptr<T> operator ->() {
+		return P;
+	}
+	
+	const std::shared_ptr<T>operator*() {
+		return P;
+	}
+
+protected:
+	std::shared_ptr<T> P = nullptr;
+};
 
 class Test {
 public:
@@ -98,6 +117,8 @@ int main() {
 
 	std::cout << T->Show() << std::endl;
 
-	
+	ReadOnlyPointer<Test> Z = std::make_shared<Test>();
+
+	Z->Show();
 
 }
